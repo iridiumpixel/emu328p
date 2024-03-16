@@ -1,0 +1,9 @@
+.vscode
+
+*.o
+*.ko
+*.obj
+*.elf
+*.out
+
+final
