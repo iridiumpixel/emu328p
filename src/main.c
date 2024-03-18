@@ -8,12 +8,27 @@
 int main(int argc, char** argv)
 {
     uint32_t length;
-    uint8_t* data = ihex_read("avr_assembly_test/test.hex", &length);
-    for (int i = 0; i < length; i++)
+    uint8_t* ihex_data = ihex_read("avr_assembly_test/test.hex", &length);
+
+    ATmega328p MCU;
+    ATmega328p_init(&MCU);
+    for(int i = 0; i < length; i++)
     {
-        printf("%02x\t", data[i]);
-        if (length % 8 == 0) printf("\n");
+        MCU.PROGRAM_MEMORY[i] = ihex_data[i];
     }
-    ihex_free(data);
+    int32_t c;
+    scanf("%d", &c);
+    while (c != 3)
+    {
+        printf("Tick: %ld\n", MCU.tick_counter);
+        if (c == 0)
+            ATmega328p_tick(&MCU);
+        if (c == 1)
+            ATmega328p_registers_print(&MCU);
+        if (c == 2)
+            ATmega328p_memory_print(&MCU);
+        scanf("%d", &c);
+    }
+    ihex_free(ihex_data);
     return 0;
 }

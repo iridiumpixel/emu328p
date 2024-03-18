@@ -68,13 +68,16 @@ Instruction ATmega328p_define_instruction(Instruction* instructions, uint32_t in
 
 void ATmega328p_tick(ATmega328p* MCU)
 {
+  (*MCU).tick_counter++;
+
   uint32_t instruction_data = ATmega328p_fetch_16_bit_instruction(MCU);
   Instruction instruction = ATmega328p_define_instruction(instructions, instruction_data);
 
   if (instruction.instruction_handler == NULL)
   {
     // TODO: Throw an exception
-    printf("Instruction not found\n");
+    printf("Instruction not found, tick: %ld\n", (*MCU).tick_counter);
+    return;
   }
 
   if (instruction.length == 4)
@@ -85,5 +88,32 @@ void ATmega328p_tick(ATmega328p* MCU)
   instruction.instruction_handler(MCU, instruction_data);
 
   (*MCU).PC += instruction.length;
+}
 
+void ATmega328p_registers_print(ATmega328p* MCU)
+{
+  for (int i = 1; i < 33; i++)
+  {
+    printf("R%02d: %02x ", i, (*MCU).SRAM[i-1]);
+    if (i != 0 && i % 8 == 0) printf("\n");
+  }
+  printf("\n");
+  for (int i = 1; i < 65; i++)
+  {
+    printf("I%02d: %02x ", i, (*MCU).SRAM[i-1+32]);
+    if (i != 0 && i % 8 == 0) printf("\n");
+  }
+  printf("\n");
+}
+
+void ATmega328p_memory_print(ATmega328p* MCU)
+{
+  for (int i = 0; i < 16; i++)
+    printf("%");
+  for (int i = 1; i < 257; i++)
+  {
+    printf("%02x ", (*MCU).SRAM[i-1+SRAM_MEMORY_START]);
+    if (i != 0 && i % 16 == 0) printf("\n");
+  }
+  printf("\n");
 }

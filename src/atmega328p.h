@@ -19,4 +19,8 @@ uint32_t ATmega328p_fetch_32_bit_opcode(ATmega328p* MCU);
 Instruction ATmega328p_define_instruction(
             Instruction* instructions, uint32_t instruction);
 
+void ATmega328p_registers_print(ATmega328p* MCU);
+
+void ATmega328p_memory_print(ATmega328p* MCU);
+
 #endif //_ATMEGA328P_H
