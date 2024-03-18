@@ -1,4 +1,6 @@
 .vscode
+atmega_docs
+avr_assembly_test
 
 *.o
 *.ko

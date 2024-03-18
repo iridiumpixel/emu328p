@@ -2,14 +2,25 @@ CC=gcc
 
 CFLAGS=-O0 -Wall -Wpedantic -g
 
-.PHONY: clean final
+COBJFILES=instruction_handlers.o main.o atmega328p.o
 
-final: main.o 
-	$(CC) $(CFLAGS) main.o -o final
+#.PHONY: clean final
+
+all: main.o instruction_handlers.o atmega328p.o
+	$(CC) $(CFLAGS) $(COBJFILES) -o final
 
 main.o: 
+	echo "compiling main"
 	$(CC) $(CFLAGS) -c src/main.c
 
+atmega328p.o:
+	$(CC) $(CFLAGS) -c src/atmega328p.c
+
+
+instruction_handlers.o:
+	$(CC) $(CFLAGS) -c src/instruction_handlers.c
+
+
 clean:
-	echo "Cleaning..."
+	echo "clean"
 	rm final *.o
