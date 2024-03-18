@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     }
     int32_t c;
     scanf("%d", &c);
-    while (c != 3)
+    while (c != 20)
     {
         printf("Tick: %ld\n", MCU.tick_counter);
         if (c == 0)
@@ -27,6 +27,8 @@ int main(int argc, char** argv)
             ATmega328p_registers_print(&MCU);
         if (c == 2)
             ATmega328p_memory_print(&MCU);
+        if (c == 3)
+            printf("PC: %d\n", (MCU).PC);
         scanf("%d", &c);
     }
     ihex_free(ihex_data);

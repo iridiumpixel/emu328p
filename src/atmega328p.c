@@ -7,9 +7,11 @@
 #include "defines.h"
 #include "typedefs.h"
 
-Instruction instructions[1] = {
+Instruction instructions[INSTRUCTIONS_COUNT] = {
   {SBI,     0x9A00, 0xFF00, 2, 2},
+  {RJMP,    0xC000, 0xF000, 2, 2}
 };
+
 
 Instruction INSTRUCTION_NOT_FOUND = {
   NULL,      0x0000, 0x0000, 0, 0
