@@ -109,7 +109,8 @@ void ATmega328p_registers_print(ATmega328p* MCU)
 void ATmega328p_memory_print(ATmega328p* MCU)
 {
   for (int i = 0; i < 16; i++)
-    printf("%");
+    printf("%02d ", i);
+  printf("\n\n");
   for (int i = 1; i < 257; i++)
   {
     printf("%02x ", (*MCU).SRAM[i-1+SRAM_MEMORY_START]);
