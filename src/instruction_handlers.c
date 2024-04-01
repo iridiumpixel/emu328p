@@ -29,6 +29,7 @@ void RJMP(ATmega328p* MCU, uint32_t instruction_data)
 
 void RETI(ATmega328p* MCU, uint32_t instruction_data)
 {
-
+  (*MCU).PC = (uint16_t)((*MCU).SRAM[(*MCU).SP + 1]) | (uint16_t)((*MCU).SRAM[(*MCU).SP] << 8);
+  (*MCU).PC += 2;
 }
 

@@ -9,7 +9,8 @@
 
 Instruction instructions[INSTRUCTIONS_COUNT] = {
   {SBI,     0x9A00, 0xFF00, 2, 2},
-  {RJMP,    0xC000, 0xF000, 2, 2}
+  {RJMP,    0xC000, 0xF000, 2, 2},
+  {RETI,    0x9518, 0xFFFF, 2, 4},
 };
 
 
@@ -62,6 +63,7 @@ Instruction ATmega328p_define_instruction(Instruction* instructions, uint32_t in
   {
     if ((instructions[i].opcode_mask & instruction) == instructions[i].opcode)
     {
+    
       return instructions[i];
     } 
   }

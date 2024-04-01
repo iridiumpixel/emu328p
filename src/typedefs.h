@@ -9,7 +9,7 @@ typedef struct
   // Memory
   uint8_t PROGRAM_MEMORY[PROGRAM_MEMORY_SIZE];
   uint8_t SRAM[SRAM_SIZE];
-  uint32_t PC; // Program counter
+  uint16_t PC; // Program counter
   uint32_t SP; // Stack pointer
 
   uint64_t tick_counter;

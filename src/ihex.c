@@ -26,6 +26,7 @@ uint8_t* ihex_read(char* file_path, uint32_t* return_length)
   //char line_checksum[CHECKSUM_LENGTH + 1];
   char data_byte[3];
 
+
   uint8_t* ihex_data = NULL;
   size_t length = 0;
   uint32_t ihex_data_pointer = 0;
