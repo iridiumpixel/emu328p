@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
     uint32_t length;
-    uint8_t* ihex_data = ihex_read("avr_assembly_test/test.hex", &length);
+    uint8_t* ihex_data = ihex_read("avr_assembly_test/test1.hex", &length);
 
     ATmega328p MCU;
     ATmega328p_init(&MCU);

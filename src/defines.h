@@ -2,7 +2,7 @@
 #define _DEFINES_H
 
 #define ERROR_INSTRUCTION  0
-#define INSTRUCTIONS_COUNT 3
+#define INSTRUCTIONS_COUNT 5
 
 // Memory layout of ATmega328p
 #define MEMORY_ADRESS_START 0x0000 

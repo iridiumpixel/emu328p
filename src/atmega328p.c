@@ -11,6 +11,8 @@ Instruction instructions[INSTRUCTIONS_COUNT] = {
   {SBI,     0x9A00, 0xFF00, 2, 2},
   {RJMP,    0xC000, 0xF000, 2, 2},
   {RETI,    0x9518, 0xFFFF, 2, 4},
+  {LDI,     0xE000, 0xF000, 2, 1},
+  {STS,     0x9200, 0xFE0F, 4, 2},
 };
 
 
@@ -52,8 +54,8 @@ uint16_t ATmega328p_fetch_16_bit_instruction(ATmega328p* MCU)
 uint32_t ATmega328p_fetch_32_bit_instruction(ATmega328p* MCU)
 {
   // TODO: add exception handler
-  uint32_t upper_half = ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 3] << 24) | ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 2] << 16); 
-  uint32_t lower_half = ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 2] << 8 ) | ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 0]      );
+  uint32_t upper_half = ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 1] << 24) | ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 0] << 16); 
+  uint32_t lower_half = ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 3] << 8 ) | ((*MCU).PROGRAM_MEMORY[(*MCU).PC + 2]      );
   return upper_half | lower_half; 
 }
 
@@ -79,14 +81,13 @@ void ATmega328p_tick(ATmega328p* MCU)
 
   if (instruction.instruction_handler == NULL)
   {
-    // TODO: Throw an exception
     printf("Instruction not found, tick: %ld\n", (*MCU).tick_counter);
     return;
   }
 
   if (instruction.length == 4)
   {
-    instruction_data = ATmega328p_fetch_16_bit_instruction(MCU);
+    instruction_data = ATmega328p_fetch_32_bit_instruction(MCU);
   }
 
   instruction.instruction_handler(MCU, instruction_data);
