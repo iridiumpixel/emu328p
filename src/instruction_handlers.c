@@ -37,7 +37,7 @@ void LDI(ATmega328p* MCU, uint32_t instruction_data)
 {
   // 1110 KKKK dddd KKKK
   uint16_t immidiate = (instruction_data & 0xF) | ((instruction_data & 0xF00) >> 4);
-  uint16_t register_number = ((instruction_data & 0xF0) >> 4) - 1;
+  uint16_t register_number = ((instruction_data & 0xF0) >> 4);
   // Loads to registers 16-31, therefore adding 16
   (*MCU).SRAM[GP_REGISTERS_MEMORY_START + register_number + 16] = immidiate;
 }
