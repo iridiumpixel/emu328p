@@ -8,11 +8,17 @@
 #include "typedefs.h"
 
 Instruction instructions[INSTRUCTIONS_COUNT] = {
+// MNEMONIC OPCODE OPCODE_MASK SIZE_IN_BYTES CYCLES
   {SBI,     0x9A00, 0xFF00, 2, 2},
   {RJMP,    0xC000, 0xF000, 2, 2},
   {RETI,    0x9518, 0xFFFF, 2, 4},
   {LDI,     0xE000, 0xF000, 2, 1},
   {STS,     0x9200, 0xFE0F, 4, 2},
+  {IN,      0xB000, 0xA800, 2, 1},
+  {SBRC,    0xFC00, 0xFE08, 2, 1},
+  {CBI,     0x9800, 0xFF00, 2, 2},
+  {ORI,     0x6000, 0xF000, 2, 1},
+  {SEI,     }
 };
 
 
@@ -25,6 +31,8 @@ void ATmega328p_init(ATmega328p* MCU)
 {
   (*MCU).PC = 0;
   (*MCU).SP = 0;
+  MCU->SREG = 0;
+  MCU->skip_next_instruction = false;
 
   (*MCU).tick_counter = 0;
 
@@ -90,7 +98,11 @@ void ATmega328p_tick(ATmega328p* MCU)
     instruction_data = ATmega328p_fetch_32_bit_instruction(MCU);
   }
 
-  instruction.instruction_handler(MCU, instruction_data);
+  // Instruction can be skipped my flow-control instructions
+  if (!(MCU->skip_next_instruction))
+  {
+    instruction.instruction_handler(MCU, instruction_data);
+  }
 
   (*MCU).PC += instruction.length;
 }

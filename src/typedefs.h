@@ -3,6 +3,7 @@
 
 #include "defines.h"
 #include "stdint.h"
+#include "stdbool.h"
 
 typedef struct 
 {
@@ -11,8 +12,11 @@ typedef struct
   uint8_t SRAM[SRAM_SIZE];
   uint16_t PC; // Program counter
   uint32_t SP; // Stack pointer
+  uint8_t SREG;
 
   uint64_t tick_counter;
+
+  bool skip_next_instruction;
 
   // ¨Pins¨ for debugging
   uint8_t PORTA;
